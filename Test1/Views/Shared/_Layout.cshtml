@@ -10,10 +10,10 @@
 </head>
 <body>
     <p>
-        Use this area to provide additional information.
+        MVC測試
     </p>
     <p>
-        Use this area to provide additional information.
+     取Customers三欄位:CustomerID、CompanyName、ContactName進行測試
     </p>
 
 
@@ -29,18 +29,22 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Test1", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Test2", "About", "Home")</li>
-                    <li>@Html.ActionLink("Test3", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("查詢", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Test2", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Test3", "Index", "Home")</li>
                 </ul>
             </div>
         </div>
     </div>
+
+
+
+
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
+            <p>&copy; @DateTime.Now.Year - MVC應用程式</p>
         </footer>
     </div>
 

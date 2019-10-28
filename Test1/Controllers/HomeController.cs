@@ -4,124 +4,102 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.SqlClient;
-
-
+using Test1.Models;
 
 namespace Test1.Controllers
 {
+
     public class HomeController : Controller
     {
 
-        //客戶資料
-        public class Card
-        {
-            public string ID { get; set; }
-            public string Char_name { get; set; }
-            public string Card_name { get; set; }
-            public string Card_level { get; set; }
-        }
-
-
-
-        public class Student
-        {
-            public string id { get; set; }
-            public string name { get; set; }
-            public String score { get; set; }
-            public Student()
-            {
-                id = string.Empty;
-                name = string.Empty;
-                score = string.Empty;
-            }
-
-
-
-            public Student(string _id, string _name, string _score)
-            {
-                id = _id;
-                name = _name;
-                score = _score;
-            }
-            public override string ToString()
-            {
-                return $"學號:{id}, 姓名:{name}, 分數:{score}.";
-            }
-        }
-
         public ActionResult Index()
         {
+            DBmanager dbmanager = new DBmanager();
+            List<Card> cards = dbmanager.GetCards();
+            ViewBag.cards = cards;
+            return View();
+        }
 
-
-
-            //test範圍=================================================
-            /*欄位
-CustomerID
-CompanyName
-ContactName
-ContactTitle
-Address
-City
-Region
-Country
-Phone
-Fax
-             */
-
+        public ActionResult Index()  //新增功能實作
+        {
+            DBmanager dbmanager = new DBmanager();
+            List<Card> cards = dbmanager.GetCards();
+            ViewBag.cards = cards;
+            return View();
+        }
 
 
 
 
+        public ActionResult DeleteCard (int id)
+        {
+            DBmanager dBmanager = new DBmanager();
+            dBmanager.DeleteCardById(id);
+
+            return RedirectToAction("Index");
+        }
 
 
 
-            //   Data Source = LAPTOP - 2SE654DN\SQLEXPRESS; Initial Catalog = Northwind; Integrated Security = True
-
-            SqlConnection XXX = new SqlConnection();
-
-            XXX = new SqlConnection(@"Data Source=LAPTOP-2SE654DN\SQLEXPRESS;Initial Catalog=Northwind;Integrated Security=True");
 
 
-            SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Customers");
-            sqlCommand.Connection = XXX;
-            XXX.Open();
-
-            SqlDataReader reader = sqlCommand.ExecuteReader();
-
-
-            //=============================================================
-
-            DateTime date = DateTime.Now;
-            Student data = new Student();
-            List<Student> list = new List<Student>();
+        public class DBmanager
+        {
+            private readonly string ConnStr = "Data Source=LAPTOP-2SE654DN\\SQLEXPRESS;Initial Catalog=Northwind;Integrated Security=True";
+            //C#內\會有逸出問題，連線字串內以\\取代
 
 
 
-            if (reader.HasRows)
+            public List<Card> GetCards()
             {
-                while (reader.Read())
+                List<Card> cards = new List<Card>();
+                SqlConnection sqlConnection = new SqlConnection(ConnStr); //連接，ConnStr為上方宣告之連線字串
+                SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Customers;");
+                sqlCommand.Connection = sqlConnection;
+
+                sqlConnection.Open(); //開啟連接
+
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
                 {
-                    Student data1 = new Student()
+                    while (reader.Read())
                     {
-                        id = reader.GetString(reader.GetOrdinal("CustomerID")),
-                        name = reader.GetString(reader.GetOrdinal("CompanyName")),
-                        score = reader.GetString(reader.GetOrdinal("ContactName")),
-                      
-                       
-                };
-                    list.Add(data1);
+                        Card card = new Card
+                        {
+                            ID = reader.GetString(reader.GetOrdinal("CustomerID")),
+                            Char_name = reader.GetString(reader.GetOrdinal("CompanyName")),
+                            Card_name = reader.GetString(reader.GetOrdinal("ContactName")),
+                        };
+                        cards.Add(card);
+                    }
                 }
+                else
+                {
+                    Console.WriteLine("資料庫為空！");
+                }
+                sqlConnection.Close();
+                return cards;
+            }
+
+
+            public void DeleteCardById(int id) {
+                SqlConnection sqlConnection = new SqlConnection(ConnStr); //連接，ConnStr為上方宣告之連線字串
+                SqlCommand sqlCommand = new SqlCommand("Delete  FROM Customers Where CustomerID = @id;");
+                sqlCommand.Connection = sqlConnection;
+                sqlCommand.Parameters.Add(new SqlParameter("@id", id));
+                sqlConnection.Open(); //開啟連接
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close(); //關閉連接
+
             }
 
 
 
 
 
-        //====================================================
+        }
 
-
-
-
+    
 
 
 
@@ -132,59 +110,9 @@ Fax
 
 
       
-        list.Add(new Student("1", "小明", "80"));
-            list.Add(new Student("2", "小華", "70"));
-            list.Add(new Student("3", "小英", "60"));
-            list.Add(new Student("4", "小李", "50"));
-            list.Add(new Student("5", "小張", "90"));
-            list.Add(new Student("!!!!!", "~~~~~~~", "8"));
 
 
-            ViewBag.Date = date;
-            ViewBag.Student = data;
-            ViewBag.List = list;
-            return View();
- 
-        
-        
-        }
-
-
-
-
-
-
-        public List<Card> GetCards()
-        {
-            ViewBag.Date = "cccccccccccc";
-            List<Card> cards = new List<Card>();
-            SqlConnection sqlConnection = new SqlConnection(@"Data Source = LAPTOP - 2SE654DN\SQLEXPRESS; Initial Catalog = Northwind; Integrated Security = True");
-            SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Customers");
-            sqlCommand.Connection = sqlConnection;
-            sqlConnection.Open();
-
-            SqlDataReader reader = sqlCommand.ExecuteReader();
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
-                    Card card = new Card
-                    {
-                        ID = reader.GetString(reader.GetOrdinal("id")),
-                        Char_name = reader.GetString(reader.GetOrdinal("char_name")),
-                        Card_name = reader.GetString(reader.GetOrdinal("card_name")),
-                        Card_level = reader.GetString(reader.GetOrdinal("card_level")),
-                    };
-                    cards.Add(card);
-                }
-            }
-            else
-            {
-                Console.WriteLine("資料庫為空！");
-            }
-            sqlConnection.Close();
-            return cards;
-        }
+      
 
 
 
@@ -204,30 +132,5 @@ Fax
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }
