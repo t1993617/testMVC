@@ -12,3 +12,17 @@ namespace Test1.Models
             public string Card_name { get; set; }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -20,14 +20,24 @@ namespace Test1.Controllers
             return View();
         }
 
-        public ActionResult Index()  //新增功能實作
+        public ActionResult CreateCard()  //新增功能實作
         {
-            DBmanager dbmanager = new DBmanager();
-            List<Card> cards = dbmanager.GetCards();
-            ViewBag.cards = cards;
             return View();
         }
+        [HttpPost]
+        public ActionResult CreateCard(Card card)
+        {
+            DBmanager dbmanager = new DBmanager();
+            try {
+                dbmanager.NewCard(card);
+            }
+            catch(Exception e){ 
+            Console.WriteLine(e.ToString());
+            }
 
+
+
+            return View(); }
 
 
 
@@ -82,6 +92,33 @@ namespace Test1.Controllers
             }
 
 
+
+            //新增功能
+            public void NewCard(Card card) //實作傳入資料庫方法
+            {
+                SqlConnection sqlConnection = new SqlConnection(ConnStr); //連接，ConnStr為上方宣告之連線字串
+                SqlCommand sqlCommand = new SqlCommand(@" insert into  Customers(CustomerID, CompanyName, ContactName, ContactTitle, Address, City, Region, Country, Phone, Fax)
+VALUES(@char_name, @card_name, @card_level, '', '', '', '', '', '', '');");
+                sqlCommand.Connection = sqlConnection;
+                sqlCommand.Parameters.Add(new SqlParameter("@char_name", card.ID));
+                sqlCommand.Parameters.Add(new SqlParameter("@card_name", card.Char_name));
+                sqlCommand.Parameters.Add(new SqlParameter("@card_level",card.Card_name));
+
+               
+                sqlConnection.Open(); //開啟連接
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close(); //關閉連接
+
+               
+            }
+
+
+
+
+
+
+
+            //刪除功能
             public void DeleteCardById(int id) {
                 SqlConnection sqlConnection = new SqlConnection(ConnStr); //連接，ConnStr為上方宣告之連線字串
                 SqlCommand sqlCommand = new SqlCommand("Delete  FROM Customers Where CustomerID = @id;");
