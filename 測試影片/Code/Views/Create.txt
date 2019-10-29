@@ -1,4 +1,4 @@
-﻿<!--新增功能的檢視畫面-->
+<!--新增功能的檢視畫面-->
 @{
     ViewBag.Title = "CreateCard";
 }
@@ -7,8 +7,7 @@
 <br />
 
 
-<!--新增功能頁面-->
-<p>請輸入5碼ID</p>
+<!--新增功能頁面-->>
 <form method="post" action="/Home/CreateCard">  <!--把這表單用post送到/Home/CreateCard-->
     <div class="form-group row">
         <label for="inputCharName" class="col-sm-2">CustomerID</label>

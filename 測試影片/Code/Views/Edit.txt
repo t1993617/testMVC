@@ -1,10 +1,9 @@
-﻿@model Test1.Models.Card
+@model Test1.Models.Card
 <h2>編輯客戶資料</h2>
 <br />
 
 
-<!--編輯客戶資料頁面-->
-<p>CustomerID為唯獨資料</p>
+<!--編輯客戶資料頁面-->>
 <form method="post" action="/Home/EditCard">
     <div class="form-group row">
         <label for="inputCharName" class="col-sm-2">CustomerID</label>

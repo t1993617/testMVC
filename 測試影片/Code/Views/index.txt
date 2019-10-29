@@ -1,0 +1,46 @@
+@using Test1.Models;
+@{
+    List<Card> cards = ViewBag.cards;
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>CustomerID</th>
+            <th>CompanyName</th>
+            <th>ContactName</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (Card card in cards)
+        {
+            <tr>
+                <th>@card.ID</th>
+                <th>@card.Company</th>
+                <th>@card.Contact</th>
+                
+                
+                
+                <th>
+                    @Html.ActionLink("編輯", "EditCard", new { id = card.ID })  <!--按下字時傳入card的id-->
+                </th>
+                <th>
+                    @Html.ActionLink("刪除", "DeleteCard", new { id = card.ID })   <!--按下字時傳入card的id-->
+                </th>
+
+</tr>
+           
+        }
+
+    </tbody>
+</table>
+
+
+<p>
+    @Html.ActionLink("新增資料","CreateCard")
+    </p>
+
+
