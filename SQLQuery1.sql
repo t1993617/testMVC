@@ -1,6 +1,6 @@
 ﻿select * from customers;
 
-DELETE FROM Customers where CustomerID='A1';
+DELETE FROM Customers where CustomerID='A6';
 
 
 insert into  Customers(CustomerID,CompanyName,ContactName,ContactTitle,Address,City,Region,Country,Phone,Fax) 

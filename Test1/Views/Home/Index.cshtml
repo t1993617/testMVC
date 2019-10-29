@@ -19,16 +19,17 @@
         {
             <tr>
                 <th>@card.ID</th>
-                <th>@card.Char_name</th>
-                <th>@card.Card_name</th>
+                <th>@card.Company</th>
+                <th>@card.Contact</th>
                 
                 
                 
                 <th>
-                    @Html.ActionLink("編輯", "EditCard", new { id = card.ID })
-                                |
-                    @Html.ActionLink("刪除","EditCard",new { id=card.ID})
-                 </th>
+                    @Html.ActionLink("編輯", "EditCard", new { id = card.ID })  <!--按下字時傳入card的id-->
+                </th>
+                <th>
+                    @Html.ActionLink("刪除", "DeleteCard", new { id = card.ID })   <!--按下字時傳入card的id-->
+                </th>
 
 </tr>
            

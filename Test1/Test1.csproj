@@ -167,6 +167,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\CreateCard.cshtml" />
+    <Content Include="Views\Home\EditCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Controller1\" />
