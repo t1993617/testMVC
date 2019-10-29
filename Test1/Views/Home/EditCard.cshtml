@@ -1,0 +1,30 @@
+﻿@model Test1.Models.Card
+<h2>編輯客戶資料</h2>
+<br />
+
+
+<!--編輯客戶資料頁面-->>
+<form method="post" action="/Home/EditCard">
+    <div class="form-group row">
+        <label for="inputCharName" class="col-sm-2">CustomerID</label>
+        <div class="col-sm-10">
+            <input type="text" id="inputID" name="ID" class="form-control" value="@Model.ID"  readonly/><!--ID不能被修改，因次被設為唯獨-->
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputCardName" class="col-sm-2">CompanyName</label>
+        <div class="col-sm-10">
+            <input type="text" id="inputCompany" name="Company" class="form-control"  value="@Model.Company"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputCardLevel" class="col-sm-2">ContactName</label>
+        <div class="col-sm-10">
+            <input type="text" id="inputContact" name="Contact" class="form-control"  value="@Model.Contact"/>
+        </div>
+    </div>
+    <input class="btn btn-default" type="submit" value="修改" />
+</form>
+
+
+

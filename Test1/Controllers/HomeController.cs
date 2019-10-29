@@ -36,13 +36,19 @@ namespace Test1.Controllers
         public ActionResult CreateCard(Card card)
         {
             DBmanager dbmanager = new DBmanager();
-            try {
+            try
+            {
                 dbmanager.NewCard(card);
             }
-            catch(Exception e){ 
-            Console.WriteLine(e.ToString());
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
             }
-            return RedirectToAction("Index"); }
+            return RedirectToAction("Index");
+        }
+
+
+
 
         //修改功能===================================================================================
 
@@ -61,8 +67,8 @@ namespace Test1.Controllers
             return RedirectToAction("Index");
         }
 
-        //====================================================================================
-
+        //刪除功能====================================================================================
+        
 
         public ActionResult DeleteCard (String id)
         {
@@ -115,7 +121,7 @@ namespace Test1.Controllers
             }
 
 
-
+            //修改功能:搜尋原本的資料==================================================
 
             public Card GetCardById(String id)
             {
@@ -123,7 +129,7 @@ namespace Test1.Controllers
                 SqlConnection sqlConnection = new SqlConnection(ConnStr); //連接，ConnStr為上方宣告之連線字串
                 SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Customers Where CustomerID=@id;");
                 sqlCommand.Connection = sqlConnection;
-                sqlCommand.Parameters.Add(new SqlParameter("@id", id)); //將指定的SqlParameter物件加入至SqlParameterCollection中
+                sqlCommand.Parameters.Add(new SqlParameter("@id",id)); //將指定的SqlParameter(輸入本函式的String)物件加入至SqlParameterCollection中
                 sqlConnection.Open(); //開啟連接
 
                 SqlDataReader reader = sqlCommand.ExecuteReader();
@@ -157,25 +163,15 @@ namespace Test1.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
             //新增功能==============================================================================================
             public void NewCard(Card card) //實作傳入資料庫方法
             {
                 SqlConnection sqlConnection = new SqlConnection(ConnStr); //連接，ConnStr為上方宣告之連線字串
-                SqlCommand sqlCommand = new SqlCommand(" insert into  Customers(CustomerID, CompanyName, ContactName, ContactTitle, Address, City, Region, Country, Phone, Fax) VALUES (@char_name, @card_name, @card_level, '1', '1', '1', '1', '1', '1', '1');");
+                SqlCommand sqlCommand = new SqlCommand("insert into  Customers(CustomerID, CompanyName, ContactName, ContactTitle, Address, City, Region, Country, Phone, Fax) VALUES (@id, @company, @contact, '1', '1', '1', '1', '1', '1', '1');");
                 sqlCommand.Connection = sqlConnection;
-                sqlCommand.Parameters.Add(new SqlParameter("@char_name", card.ID));
-                sqlCommand.Parameters.Add(new SqlParameter("@card_name", card.Company));
-                sqlCommand.Parameters.Add(new SqlParameter("@card_level",card.Contact));
+                sqlCommand.Parameters.Add(new SqlParameter("@id", card.ID)); //把值輸入上方SQL
+                sqlCommand.Parameters.Add(new SqlParameter("@company", card.Company));
+                sqlCommand.Parameters.Add(new SqlParameter("@contact",card.Contact));
 
                
                 sqlConnection.Open(); //開啟連接
@@ -186,15 +182,17 @@ namespace Test1.Controllers
             }
 
 
+
+            //修改功能實作===========================================================================
             public void UpdateCard(Card card) //實作傳入資料庫方法
             {
                 SqlConnection sqlConnection = new SqlConnection(ConnStr); //連接，ConnStr為上方宣告之連線字串
-                SqlCommand sqlCommand = new SqlCommand("Update  Customers   SET   CustomerID=@char_name, CompanyName=@card_name, ContactName=@card_level Where CustomerID=@char_name;");
+                SqlCommand sqlCommand = new SqlCommand("Update  Customers   SET   CustomerID=@id, CompanyName=@company, ContactName=@contact Where CustomerID=@id;");
 
                 sqlCommand.Connection = sqlConnection;
-                sqlCommand.Parameters.Add(new SqlParameter("@char_name", card.ID));
-                sqlCommand.Parameters.Add(new SqlParameter("@card_name", card.Company));
-                sqlCommand.Parameters.Add(new SqlParameter("@card_level", card.Contact));
+                sqlCommand.Parameters.Add(new SqlParameter("@id", card.ID));
+                sqlCommand.Parameters.Add(new SqlParameter("@company", card.Company));
+                sqlCommand.Parameters.Add(new SqlParameter("@contact", card.Contact));
 
 
                 sqlConnection.Open(); //開啟連接

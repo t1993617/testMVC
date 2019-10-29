@@ -1,0 +1,32 @@
+﻿<!--新增功能的檢視畫面-->
+@{
+    ViewBag.Title = "CreateCard";
+}
+
+<h2>CreateCard</h2>
+<br />
+
+
+<!--新增功能頁面-->>
+<form method="post" action="/Home/CreateCard">  <!--把這表單用post送到/Home/CreateCard-->
+    <div class="form-group row">
+        <label for="inputCharName" class="col-sm-2">CustomerID</label>
+        <div class="col-sm-10">
+            <input type="text" id="inputID" name="ID" class="form-control" /><!--name為資料的欄位名稱，一定要和card對的上-->
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputCardName" class="col-sm-2">CompanyName</label>
+        <div class="col-sm-10">
+            <input type="text" id="inputCompany" name="Company" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputCardLevel" class="col-sm-2">ContactName</label>
+        <div class="col-sm-10">
+            <input type="text" id="inputContact" name="Contact" class="form-control" />
+        </div>
+    </div>
+    <input class="btn btn-default" type="submit" value="新增" />
+</form>
+
